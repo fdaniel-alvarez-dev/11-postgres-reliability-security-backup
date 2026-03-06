@@ -1,0 +1,28 @@
+11 - Problem Statement (Repository Validation Contract)
+
+Purpose
+This document defines the business context, technical requirements, and evaluation criteria that this repository is expected to satisfy.
+It is intentionally company- and role-agnostic.
+
+Business context (generic)
+- A PostgreSQL-backed system grows quickly; recovery must remain predictable under scale and incident pressure.
+- Backups must be verifiably restorable, not just “created successfully”.
+- Operational workflows must be automated with clear runbooks.
+
+Technical requirements (what must be true)
+1) Backup + restore + verification
+   - Backups are created as artifacts and stored out of band.
+   - Restores are repeatable and documented.
+   - A verification drill exists that restores into an isolated database and runs a post-restore check.
+
+2) Testability with two explicit modes
+   - Tests have two explicit modes:
+     - demo: mocks/fakes only (no Docker, no external calls)
+     - production: real integrations when correctly configured and explicitly acknowledged
+   - If production prerequisites are missing, the runner prints exactly what is missing and how to re-run.
+
+Top 3 pain points this repository must solve
+1) “Backups exist, but restores are unpracticed and unreliable.”
+2) “Verification is manual and happens only during incidents.”
+3) “Integration tests fail unclearly without configuration.”
+

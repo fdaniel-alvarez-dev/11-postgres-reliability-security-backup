@@ -1,6 +1,6 @@
-.PHONY: demo up down logs backup restore check
+.PHONY: demo up down logs seed backup restore backup-verify check test test-demo test-production
 
-demo: up check backup
+demo: up check seed backup backup-verify
 	@echo "Demo complete. Try: make logs"
 
 up:
@@ -15,8 +15,22 @@ logs:
 check:
 	bash scripts/check_replication.sh
 
+seed:
+	bash scripts/seed_demo_data.sh
+
 backup:
 	bash scripts/backup.sh
 
 restore:
 	bash scripts/restore.sh
+
+backup-verify:
+	bash scripts/backup_verify.sh
+
+test: test-demo
+
+test-demo:
+	@TEST_MODE=demo python3 tests/run_tests.py
+
+test-production:
+	@TEST_MODE=production python3 tests/run_tests.py
